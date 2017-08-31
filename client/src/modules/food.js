@@ -23,7 +23,7 @@ export const getFood = (q) => {
       console.log(1, 'response');
   return dispatch => {
       console.log(2, 'response');
-    axios.get(`http://localhost:3001/api/food?q=${q}`)
+    axios.get(`http://localhost:3001/api/getfood?q=${q}`)
     .then(response => {
       console.log(response);
       dispatch({

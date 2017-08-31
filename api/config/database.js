@@ -14,14 +14,14 @@ MongoClient.connect(url, function(err, db) {
   indexFood(db);
 });
 
+// Food index
 const indexFood = function(db) {
   // Get the collection
-  var collection = db.collection('food');
-  // Create the index
-  collection.createIndex(
+  db.collection('food').createIndex(
     { description : "text" },
     (err, result) => {
       if( err ) console.error(err);
+      else console.log('Food index created.');
     }
   );
 };

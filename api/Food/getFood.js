@@ -1,6 +1,6 @@
 module.exports = (req, res, next) => {
-  const q = req.query.q;
   const food = global.db.collection('food');
+  const q = req.query.q;
 
   if (!q) {
     res.json({
