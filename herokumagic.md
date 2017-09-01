@@ -1,0 +1,2 @@
+heroku addons:open mongolab
+
