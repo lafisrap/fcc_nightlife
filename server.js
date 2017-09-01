@@ -10,7 +10,7 @@ const path = require('path');
 
 const app = express();
 
-mongoose.connect('mongodb://' + process.env.MONGO_URI);
+mongoose.connect(process.env.MONGODB_URI);
 
 const api = require('./api/routes/api');
 
