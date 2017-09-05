@@ -47,4 +47,13 @@ UserSchema.methods.comparePassword = function (passw, cb) {
     });
 };
 
+UserSchema.options.toJSON = {
+    transform: function(doc, ret, options) {
+        delete ret._id;
+        delete ret.__v;
+        delete ret.password;
+        return ret;
+    }
+};
+
 module.exports = mongoose.model('User', UserSchema);

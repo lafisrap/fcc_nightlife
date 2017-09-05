@@ -8,17 +8,19 @@ module.exports = function(req, res) {
     if (err) throw err;
 
     if (!user) {
-      res.status(401).send({success: false, msg: 'Authentication failed. User not found.'});
+      res.send({success: false, msg: 'Authentication failed. User not found.'});
     } else {
       // check if password matches
       user.comparePassword(req.body.password, function (err, isMatch) {
         if (isMatch && !err) {
-          // if user is found and password is right create a token
-          var token = jwt.sign(user, process.env.JWT_SECRET);
-          // return the information including token as JSON
-          res.json({success: true, token: 'bearer ' + token});
+
+          // Translate user document to JSON and add JWT token
+          user = user.toJSON();
+          user.token = 'bearer ' + jwt.sign(user, process.env.JWT_SECRET);
+
+          res.json({ success: true, user });
         } else {
-          res.status(401).send({success: false, msg: 'Authentication failed. Wrong password.'});
+          res.send({ success: false, msg: 'Authentication failed. Wrong password.' });
         }
       });
     }
