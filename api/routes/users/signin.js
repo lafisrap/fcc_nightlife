@@ -1,6 +1,8 @@
 const jwt = require('jsonwebtoken');
 const User = require("../../models/user");
 
+console.assert(process.env.JWT_SECRET, "Environment variable JWT_SECRET has to be set.");
+
 module.exports = function(req, res) {
   User.findOne({
     username: req.body.username

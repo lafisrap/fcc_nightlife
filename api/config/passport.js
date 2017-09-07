@@ -12,16 +12,18 @@ module.exports = function(passport) {
     jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
     secretOrKey: process.env.JWT_SECRET
   }, function(jwt_payload, done) {
-    User.findOne({id: jwt_payload.id}, function(err, user) {
-          if (err) {
-              return done(err, false);
-          }
-          if (user) {
-              done(null, user);
-          } else {
-              done(null, false);
-          }
-      });
+    const { username } = jwt_payload;
+    User.findOne({ username }, function(err, user) {
+      if (err) {
+        return done(err, false);
+      }
+      if (user) {
+          // req.user is set with user
+          done(null, user);
+      } else {
+          done(null, false);
+      }
+    });
   }));
 
 /*

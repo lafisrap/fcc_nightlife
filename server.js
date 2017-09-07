@@ -10,7 +10,16 @@ const path = require('path');
 
 const app = express();
 
-mongoose.connect(process.env.MONGODB_URI);
+mongoose.Promise = global.Promise;
+mongoose.connect(process.env.MONGODB_URI, {
+  useMongoClient: true
+}).then(
+  () => console.log('MongoDB connected.'),
+  (err) => {
+    console.log('MongoDB not connected:', err )
+    process.exit(1);
+  }
+);
 
 const api = require('./api/routes/api');
 
@@ -60,7 +69,7 @@ server.on('listening', () => {
   var bind = typeof addr === 'string'
     ? 'pipe ' + addr
     : 'port ' + addr.port;
-  debug('Listening on ' + bind);
+  console.log('Listening on ' + bind);
 });
 
 /**
