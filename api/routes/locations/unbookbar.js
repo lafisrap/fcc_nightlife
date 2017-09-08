@@ -11,21 +11,11 @@ module.exports = function(req, res) {
   Bars.findOneAndUpdate({
     barid, date 
   }, {
-    $push: { 
+    $pull: { 
       bookedby: username
     }
-  }, function (error, result) {
-    if (error) return res.json({ error: `Error saving booking: ${error}` });
-    if (!result) {
-      const bar = new Bars({
-        barid,
-        date,
-        bookedby: [username]
-      });
-
-      bar.save();
-    }
-
-    res.json({ success: true });
+  }, function (err) {
+    if (err) res.json({ error: `Error saving booking.` });
+    else res.json({ success: true });
   });
 };

@@ -4,6 +4,7 @@ const User = require("../../models/user");
 console.assert(process.env.JWT_SECRET, "Environment variable JWT_SECRET has to be set.");
 
 module.exports = function(req, res) {
+  console.log(10, req.body);
   User.findOne({
     username: req.body.username
   }, function(err, user) {
@@ -20,6 +21,7 @@ module.exports = function(req, res) {
           user = user.toJSON();
           user.token = 'bearer ' + jwt.sign(user, process.env.JWT_SECRET);
 
+          console.log(11, user);
           res.json({ success: true, user });
         } else {
           res.send({ success: false, msg: 'Authentication failed. Wrong password.' });

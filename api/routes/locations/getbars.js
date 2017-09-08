@@ -18,6 +18,7 @@ module.exports = function(req, res, next) {
       location: location || "Berlin"
     }).then(response => {
       const { businesses } = response.jsonBody;
+      // Add bookings to the bars
       const locations = businesses.map(business => {
         const booking = bars.find(bar => business.id === bar.barid);
 
@@ -27,8 +28,8 @@ module.exports = function(req, res, next) {
       })
 
       res.json(locations);
-    }).catch(e => {
-      console.log(e);
+    }).catch(error => {
+      res.json({ error });
     });
   });
 };

@@ -26,6 +26,8 @@ const api = require('./api/routes/api');
 app.use(function(req, res, next) {
   res.header("Access-Control-Allow-Origin", "*");
   res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+  res.header("Access-Contrl-Allow-Methods", 'PUT, POST, GET, DELETE, OPTIONS');
+  res.header("Access-Control-Max-Age", '86400');
   next();
 });
 
