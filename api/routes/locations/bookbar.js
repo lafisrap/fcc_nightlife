@@ -6,26 +6,32 @@ module.exports = function(req, res) {
   const { username } = req.user;
   const date = getToday();
 
-  if( !barid ) return res.json({ success: false, error: 'Please specify parameter \'barid\'.'})
+  if (!barid) return res.json({ success: false, error: 'Please specify parameter \'barid\'.'})
 
-  Bars.findOneAndUpdate({
-    barid, date 
-  }, {
-    $push: { 
-      bookedby: username
+  Bars.findOneAndUpdate(
+    // Search for a bar today
+    { barid, date }, 
+
+    // Add username to array bookedby, ($push would also work but would eventually add it twice)
+    { $addToSet: { bookedby: username } },
+
+    // See the result
+    (error, result) => {
+      if (error) return res.json({ error: `Error saving booking: ${error}` });
+
+      // Create a new doc if non was found
+      if (!result) {
+        const bar = new Bars({
+          barid,
+          date,
+          bookedby: [username]
+        });
+
+        bar.save();
+      }
+
+      // Tell the client that all went fine
+      res.json({ success: true });
     }
-  }, function (error, result) {
-    if (error) return res.json({ error: `Error saving booking: ${error}` });
-    if (!result) {
-      const bar = new Bars({
-        barid,
-        date,
-        bookedby: [username]
-      });
-
-      bar.save();
-    }
-
-    res.json({ success: true });
-  });
+  );
 };

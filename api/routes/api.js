@@ -28,9 +28,10 @@ router.post('/signin', require('./users/signin'));
 //router.post('verifyLink', null);
 
 router.get('/getbars', require('./locations/getbars'));
-router.get('/food', require('./food/getfood'));
+//router.get('/food', require('./food/getfood'));
 //router.get('/book', passport.authenticate('jwt', { session: false }), require('./books/getbook'));
 
+router.options('/getbars', writeHeaders); 
 router.options('/bookbar', writeHeaders); 
 router.options('/unbookbar', writeHeaders); 
 router.options('/signin', writeHeaders); 

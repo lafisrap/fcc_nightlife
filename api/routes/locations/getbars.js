@@ -7,16 +7,14 @@ const YELP_API = 'https://api.yelp.com/v3/businesses/search';
 console.assert(process.env.YELP_TOKEN, "Environment variable YELP_TOKEN has to be set.");
 
 module.exports = function(req, res, next) {
-  const { location } = req.query;
+  const { location, limit, offset } = req.query;
   const date = getToday();
 
   // Find bookings of today
   Bars.find({ date }, function (err, bars) {
     const client = yelp.client(process.env.YELP_TOKEN);
 
-    client.search({
-      location: location || "Berlin"
-    }).then(response => {
+    client.search({ location, limit, offset }).then(response => {
       const { businesses } = response.jsonBody;
       // Add bookings to the bars
       const locations = businesses.map(business => {
