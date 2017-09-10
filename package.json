@@ -28,7 +28,7 @@
   },
   "scripts": {
     "start-dev": "concurrently \"yarn run server\" \"yarn run client\"",
-    "start": "yarn run server | yarn run client",
+    "start": "yarn run server",
     "server": "babel-node server.js",
     "client": "node start-client.js",
     "lint": "eslint ."
