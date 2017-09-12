@@ -29,7 +29,7 @@
   "scripts": {
     "start-dev": "concurrently \"yarn run server\" \"yarn run client\"",
     "start": "babel-node server.js",
-    "test": "mocha api/**/*_test.js --require test_setup.js",
+    "test": "mocha api/**/*_test.js --require test_setup.js --recursive",
     "lint": "eslint ."
   },
   "devDependencies": {

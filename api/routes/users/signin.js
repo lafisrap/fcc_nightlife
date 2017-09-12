@@ -18,19 +18,19 @@ const createUserToken = (err, isMatch, user, res) => {
 }
 
 // authenticate checks if there is a user and if the password is right
-const authenticate = (err, user, req, res) => {
+const authenticate = (err, user, password, res) => {
   if (err) throw err;
 
   if (!user) {
     res.send({ success: false, msg: 'Authentication failed. User not found.' });
   } else {
-    user.comparePassword(req.body.password, (err, isMatch) => createUserToken(err, isMatch, user, res));
+    user.comparePassword(password, (err, isMatch) => createUserToken(err, isMatch, user, res));
   }
 }
 
 // Gets the user from the database
 module.exports = (req, res) => {
-  const { username } = req.body;
+  const { username, password } = req.body;
 
-  User.findOne({ username }, (err, user) => authenticate(err, user, req, res));
+  User.findOne({ username }, (err, user) => authenticate(err, user, password, res));
 };
